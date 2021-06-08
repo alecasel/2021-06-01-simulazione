@@ -6,11 +6,13 @@ package it.polito.tdp.genes;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 
+import it.polito.tdp.genes.model.GenePeso;
 import it.polito.tdp.genes.model.Genes;
 import it.polito.tdp.genes.model.Model;
 import javafx.event.ActionEvent;
@@ -62,17 +64,19 @@ public class FXMLController {
     void doGeniAdiacenti(ActionEvent event) {
 
     	Genes genes = cmbGeni.getValue();
-    	List<Genes> rslt = model.getGenesAdiacenti(genes);
+    	List<GenePeso> rslt = model.getGenesAdiacenti(genes);
     	
     	if (rslt.size() == 0) {
-			txtResult.appendText("Nessun gene adiacente trovato a " + genes.toString() +"\n");
+			txtResult.appendText("Nessun gene adiacente trovato a " + genes.toString() +"\n\n");
 			return ;
 		}
     	
     	txtResult.appendText("Elenco geni adiacenti a " + genes.toString() + "\n");
-    	for (Genes g : rslt) {
-			txtResult.appendText(g.toString() +"\n");
+    	for (GenePeso genePeso : rslt) {
+			txtResult.appendText(genePeso.toString() + "\n");
 		}
+    	
+    	txtResult.appendText("\n");
     }
 
     @FXML

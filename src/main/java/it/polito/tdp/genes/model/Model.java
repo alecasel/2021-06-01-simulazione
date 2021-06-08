@@ -41,7 +41,7 @@ public class Model {
 			Graphs.addEdge(graph, verticesMap.get(arco.getVertex1()), verticesMap.get(arco.getVertex2()), arco.getWeight());
 		}
 		
-		return String.format("Grafo creato con %d vertici e %d archi\n", vertices.size(), graph.edgeSet().size());
+		return String.format("Grafo creato con %d vertici e %d archi\n\n", vertices.size(), graph.edgeSet().size());
 		
 	}
 	
@@ -49,16 +49,24 @@ public class Model {
 		return vertices;
 	}
 	
-	public List<Genes> getGenesAdiacenti(Genes genes) {
+	public List<GenePeso> getGenesAdiacenti(Genes genes) {
 		
-		List<Genes> rslt;
+		List<GenePeso> rslt = new ArrayList<GenePeso>();
+		List<Genes> neighbors = Graphs.neighborListOf(graph, genes);
 		
-		if (Graphs.neighborListOf(graph, genes) != null) {
-			rslt = Graphs.neighborListOf(graph, genes);
-			return rslt;
+		for (Genes g : neighbors) { // Per tutti i vertici vicini al vertice-parametro
+			DefaultWeightedEdge dwe = graph.getEdge(genes, g); // Prende l'arco corrispondente ai due vertici
+			GenePeso gp = new GenePeso(g, graph.getEdgeWeight(dwe)); // crea oggetto GenePeso
+			rslt.add(gp);
 		}
 		
-		return null;
+		Collections.sort(rslt);
+		
+		/* Per ogni gene di neighbors, dovrei andare a prendere gli archi a cui appartiene (vertex1 oppure vertex2)
+		 * e per quegli archi estrapolare il peso. Devo restituire un elenco di Genes con relativo peso => Map
+		*/
+		
+		return rslt;
 	}
 	
 	
