@@ -84,8 +84,6 @@ public class GenesDao {
 	
 	
 	
-	
-	
 	public List<Genes> getAllGenes(){
 		String sql = "SELECT DISTINCT GeneID, Essential, Chromosome FROM Genes";
 		List<Genes> result = new ArrayList<Genes>();

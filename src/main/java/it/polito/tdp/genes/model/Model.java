@@ -1,5 +1,7 @@
 package it.polito.tdp.genes.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ public class Model {
 		
 		graph = new SimpleWeightedGraph<Genes, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 		vertices = dao.getEssentialGenes();
+		Collections.sort(vertices);
 		
 		verticesMap = new HashMap<String, Genes>();
 		for (Genes genes : vertices) {
@@ -45,4 +48,18 @@ public class Model {
 	public List<Genes> getVertices() {
 		return vertices;
 	}
+	
+	public List<Genes> getGenesAdiacenti(Genes genes) {
+		
+		List<Genes> rslt;
+		
+		if (Graphs.neighborListOf(graph, genes) != null) {
+			rslt = Graphs.neighborListOf(graph, genes);
+			return rslt;
+		}
+		
+		return null;
+	}
+	
+	
 }
