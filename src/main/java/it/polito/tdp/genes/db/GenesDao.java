@@ -42,11 +42,12 @@ public class GenesDao {
 	
 	public List<Arco> getEdges() {
 		
-		String sql = "SELECT DISTINCT i.GeneID1, i.GeneID2 "
+		String sql = "SELECT DISTINCT i.GeneID1, i.GeneID2, ABS(i.Expression_Corr) AS weight, g1.Chromosome, g2.Chromosome "
 				+ "FROM interactions i, genes g1, genes g2 "
 				+ "WHERE g1.GeneID = i.GeneID1 AND g2.GeneID = i.GeneID2 "
 				+ "AND i.GeneID1 <> i.geneID2 "
-				+ "AND g1.Essential = 'Essential' AND g2.Essential = 'Essential'";
+				+ "AND g1.Essential = 'Essential' AND g2.Essential = 'Essential' ";
+//				+ "AND g1.Chromosome <> g2.Chromosome";
 		
 		List<Arco> result = new ArrayList<Arco>();
 		Connection conn = DBConnect.getConnection();
@@ -58,8 +59,13 @@ public class GenesDao {
 
 				String genes1 = res.getString("i.GeneID1"); 
 				String genes2 = res.getString("i.GeneID2"); 
+				Double weight = res.getDouble("weight");
 				
-				Arco arco = new Arco(genes1, genes2, 0); //TODO
+				if (res.getInt("g1.Chromosome") == res.getInt("g2.Chromosome")) {
+					weight = 2 * weight;
+				}
+				
+				Arco arco = new Arco(genes1, genes2, weight);
 				
 				result.add(arco);
 			}
