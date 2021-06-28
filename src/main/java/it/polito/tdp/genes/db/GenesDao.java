@@ -10,10 +10,10 @@ import java.util.List;
 import it.polito.tdp.genes.model.Arco;
 import it.polito.tdp.genes.model.Genes;
 
-
 public class GenesDao {
 	
-	public List<Genes> getEssentialGenes(){
+	public List<Genes> getAllVertices() {
+		
 		String sql = "SELECT DISTINCT GeneID, Essential, Chromosome FROM Genes WHERE Essential = 'Essential'";
 		List<Genes> result = new ArrayList<Genes>();
 		Connection conn = DBConnect.getConnection();
@@ -80,6 +80,7 @@ public class GenesDao {
 		}
 		
 	}
+	
 	
 	
 	

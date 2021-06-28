@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
-
 import it.polito.tdp.genes.model.GenePeso;
 import it.polito.tdp.genes.model.Genes;
 import it.polito.tdp.genes.model.Model;
@@ -81,6 +78,28 @@ public class FXMLController {
 
     @FXML
     void doSimula(ActionEvent event) {
+    	
+    	Integer numIng;
+    	
+    	try {
+    		numIng = Integer.parseInt(txtIng.getText());
+		} catch (NumberFormatException e) {
+			txtResult.appendText("Numero di ingegneri obbligatorio e deve essere un numero\n");
+			return ;
+		}
+    	
+    	Genes genesStart = cmbGeni.getValue();
+    	
+    	Map<Genes, Integer> geniStudiati = model.simulaIng(genesStart, numIng);
+    	
+    	if (geniStudiati == null) {
+			txtResult.appendText("ERRORE il gene selezionato è isolato \n");
+		} else {
+			txtResult.appendText("Risultato simulazione\n");
+			for (Genes genes : geniStudiati.keySet()) {
+				txtResult.appendText(genes+" "+ geniStudiati.get(genes)+ "\n");
+			}
+		}
 
     }
 

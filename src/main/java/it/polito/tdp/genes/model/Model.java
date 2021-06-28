@@ -26,7 +26,7 @@ public class Model {
 	public String createGraph() {
 		
 		graph = new SimpleWeightedGraph<Genes, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-		vertices = dao.getEssentialGenes();
+		vertices = dao.getAllVertices();
 		Collections.sort(vertices);
 		
 		verticesMap = new HashMap<String, Genes>();
@@ -69,5 +69,17 @@ public class Model {
 		return rslt;
 	}
 	
+	
+	public Map<Genes, Integer> simulaIng(Genes start, int numIng) {
+		
+		try {
+			Simulator sim = new Simulator(start, numIng, graph);
+			sim.run();
+			return sim.getGeniStudiati();
+		} catch (IllegalArgumentException e) {
+			return null;
+		}	
+		
+	}
 	
 }
